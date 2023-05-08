@@ -5,6 +5,7 @@ import { engine } from "express-handlebars";
 import { home, about, notFound, serverError } from "./lib/handlers.js";
 
 const app = express();
+app.disable('x-powered-by')
 
 // configure Handlebars view engine
 app.engine("handlebars", engine());
