@@ -6,6 +6,7 @@ import { home, about, notFound, serverError } from "./lib/handlers.js";
 
 const app = express();
 app.disable('x-powered-by')
+app.set('view cache', true)
 
 // configure Handlebars view engine
 app.engine("handlebars", engine());
