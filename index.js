@@ -1,21 +1,34 @@
 import express from "express";
 import { engine } from "express-handlebars";
 
-// eslint-disable-next-line semi
 import { home, about, notFound, serverError } from "./lib/handlers.js";
+import weatherMiddlware from "./lib/middleware/weather.js";
 
 const app = express();
-app.disable('x-powered-by')
-app.set('view cache', true)
+app.disable("x-powered-by");
+app.set("view cache", true);
 
 // configure Handlebars view engine
-app.engine("handlebars", engine());
+app.engine(
+	"handlebars",
+	engine({
+		defaultLayout: "main",
+		helpers: {
+			section: function (name, options) {
+				if (!this._sections) this._sections = {};
+				this._sections[name] = options.fn(this);
+				return null;
+			}
+		}
+	})
+);
 app.set("view engine", "handlebars");
 app.set("views", "./views");
 
 const port = process.env.PORT || 3000;
 
 app.use(express.static("public"));
+app.use(weatherMiddlware);
 
 // ! routes
 app.get("/", home);
