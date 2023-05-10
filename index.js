@@ -1,12 +1,14 @@
 import express from "express";
 import { engine } from "express-handlebars";
+import bodyParser from "body-parser";
 
-import { home, about, notFound, serverError } from "./lib/handlers.js";
+import { home, about, notFound, serverError, newsletterSignup, newsletterSignupProcess, newsletterSignupThankYou } from "./lib/handlers.js";
 import weatherMiddlware from "./lib/middleware/weather.js";
 
 const app = express();
 app.disable("x-powered-by");
 app.set("view cache", true);
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // configure Handlebars view engine
 app.engine(
@@ -34,6 +36,10 @@ app.use(weatherMiddlware);
 app.get("/", home);
 
 app.get("/about", about);
+
+app.get('/newsletter-signup', newsletterSignup)
+app.post('/newsletter-signup/process', newsletterSignupProcess)
+app.get('/newsletter-signup/thank-you', newsletterSignupThankYou)
 
 // custom 404 page
 app.use(notFound);
