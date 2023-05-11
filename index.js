@@ -3,6 +3,8 @@ import { engine } from "express-handlebars";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import credentials from "./credentials.js";
+import expressSession from "express-session";
+import flashMiddleware from "./lib/middleware/flash.js";
 
 import {
 	home,
@@ -22,6 +24,12 @@ app.set("view cache", true);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser(credentials.cookieSecret))
+app.use(expressSession({
+    resave: false,
+    saveUninitialized: false,
+    secret: credentials.cookieSecret
+}))
+app.use(flashMiddleware)
 
 // configure Handlebars view engine
 app.engine(
