@@ -18,6 +18,9 @@
         "no-tabs": "off",
         "indent": "off",
         "handle-callback-err": "off",
-        "n/handle-callback-err": "off"
+        "n/handle-callback-err": "off",
+        "no-useless-escape": "off",
+        "no-unused-vars": "warn",
+        "new-cap": "off"
     }
 }
